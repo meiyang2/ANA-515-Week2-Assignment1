@@ -1,0 +1,74 @@
+---
+title: "ANA 515 Assignment 1"
+author: "Mei Yang"
+date: "9/3/2022"
+output: 
+  html_document:
+    theme:
+      bootswatch: cosmo
+---
+
+```{r include = FALSE}
+#this will not show any code or results in the final document
+
+#not running install.packages every time
+
+# install.packages("tidyverse")
+# install.packages("knitr")
+# install.packages("bslib")
+
+
+```
+
+```{r include = FALSE}
+library(tidyverse)
+library(knitr)
+library(bslib)
+
+url <- 'https://raw.githubusercontent.com/fivethirtyeight/guns-data/master/full_data.csv'
+gundeath <- read_csv(url)
+
+```
+
+
+
+```{r include = FALSE}
+
+youth <- gundeath %>% 
+  filter(age <= 65)
+
+summary(youth)
+
+
+```
+
+
+We have data about `r nrow(gundeath)` individuals killed by guns. Only `r nrow(gundeath)-nrow(youth)` are older than 65. The distribution of the remainder is shown below: 
+
+# Gun deaths by age
+```{r youth-dist, echo = FALSE} 
+
+youth %>% 
+ggplot(aes(age)) + 
+geom_freqpoly(binwidth = 1) 
+
+
+```
+
+# Gun deaths by race 
+```{r race-dist, echo = FALSE} 
+youth %>% 
+ggplot(aes(fct_infreq(race) %>% fct_rev())) + 
+geom_bar() + coord_flip() + 
+labs(x = "Victim race") 
+
+
+```
+
+
+
+
+
+
+
+
